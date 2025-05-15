@@ -10,6 +10,7 @@ from pathlib import Path
 
 import mlx_whisper
 import yt_dlp
+from pywhispercpp.model import Model as whisper_cpp
 
 
 def download(url):
@@ -48,9 +49,6 @@ def asr_mlx(wav_file):
 
   for seg in result["segments"]:
     print(seg["text"])
-
-
-from pywhispercpp.model import Model as whisper_cpp
 
 
 def asr_cpp(wav_file):
