@@ -1,0 +1,7 @@
+[project]
+name = "mcp-video2text"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["yt-dlp", "soundfile", "pywhispercpp", "mlx-whisper"]
