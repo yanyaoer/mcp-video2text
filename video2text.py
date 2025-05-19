@@ -1,16 +1,18 @@
 #! /usr/bin/env -S uv run
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["yt-dlp", "soundfile", "pywhispercpp", "mlx-whisper"]
+# dependencies = ["yt-dlp", "pywhispercpp", "mlx-whisper", "pydantic_ai"]
 # ///
 
 # dependencies = ["yt-dlp", "mlx-whisper", "sherpa-onnx"]
 
-from pathlib import Path
+# from pathlib import Path
 
 import mlx_whisper
 import yt_dlp
-from pywhispercpp.model import Model as whisper_cpp
+from mcp.server.fastmcp import FastMCP
+
+server = FastMCP("PydanticAI Server")
 
 
 def download(url):
@@ -37,7 +39,6 @@ def download(url):
       raise Exception("Download failed")
 
     info = ydl.extract_info(url, download=False)
-    # print(info["id"])
     return info["id"] + ".wav"
 
 
@@ -47,32 +48,34 @@ def asr_mlx(wav_file):
     path_or_hf_repo="mlx-community/whisper-large-v3-turbo",
   )
 
-  for seg in result["segments"]:
-    print(seg["text"])
+  return [s["text"] for s in result["segments"]]
 
+
+"""
+from pywhispercpp.model import Model as whisper_cpp
 
 def asr_cpp(wav_file):
   model = whisper_cpp(
     "large-v3-turbo",
-    models_dir="/Users/yanyao/Projects/agi/whisper.cpp/models/",  # for dev
+    models_dir="$HOME/Projects/agi/whisper.cpp/models/",  # for dev
   )
   segments = model.transcribe(
     wav_file, language="zh", initial_prompt="以下是普通话的句子。"
   )
   for segment in segments:
     print(segment.text)
+"""
+
+
+@server.tool()
+async def video2text(url: str) -> str:
+  """tools for download video and extract audio,
+  then transcribe to text"""
+
+  w = download(url)
+  r = asr_mlx(w)
+  return "\n".join(r)
 
 
 if __name__ == "__main__":
-  import sys
-
-  u = (
-    sys.argv[1] if len(sys.argv) > 1 else "https://www.bilibili.com/video/BV1ZMNrejEnH/"
-  )
-  # w = download(u)
-  # w = "/tmp/BV1ZMNrejEnH.wav"
-  # w = "/tmp/1746897004.wav"
-  w = "BV1VqEvzSEcs.wav"
-  asr_cpp(w)
-  asr_mlx(w)
-  # print(r)
+  server.run()

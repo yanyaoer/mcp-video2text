@@ -4,7 +4,11 @@ version = "0.1.0"
 description = "Convert online video to text, read it quickly"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["yt-dlp", "soundfile", "pywhispercpp"]
+dependencies = [
+  "yt-dlp",
+  "pywhispercpp",
+  "pydantic-ai>=0.2.4",
+]
 
 [project.optional-dependencies]
 mlx = [
@@ -12,8 +16,11 @@ mlx = [
 ]
 
 [project.scripts]
-video2text = "video2text:__main__"
+video2text = "main:test"
 
 
 [tool.uv]
 package = true
+
+[tool.setuptools.packages.find]
+where = ["./"]
