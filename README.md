@@ -2,40 +2,39 @@
 
 Convert online video to text, read it quickly
 
+![screenshot](./screenshoot/example.png)
+
 ## Usage
 
-```
-from pydantic_ai import Agent
-from pydantic_ai.mcp import MCPServerStdio
+for mcp client, pass `uv run video2text.py` to `command` field
 
-import logfire
+or your can custom your own client, view `test_mcp_client.py`
 
-logfire.configure()
-logfire.instrument_mcp()
-logfire.instrument_pydantic_ai()
+```python
+import asyncio
+import os
 
-server = MCPServerStdio('deno',
-    args=[
-        'run',
-        '-N',
-        '-R=node_modules',
-        '-W=node_modules',
-        '--node-modules-dir=auto',
-        'jsr:@pydantic/mcp-run-python',
-        'stdio',
-    ])
-agent = Agent('claude-3-5-haiku-latest', mcp_servers=[server])
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
 
 
-async def main():
-    async with agent.run_mcp_servers():
-        result = await agent.run('How many days between 2000-01-01 and 2025-03-18?')
-    print(result.output)
-    #> There are 9,208 days between January 1, 2000, and March 18, 2025.w
+async def client():
+  server_params = StdioServerParameters(
+    command="uv", args=["run", "video2text.py"], env=os.environ
+  )
+  async with stdio_client(server_params) as (read, write):
+    async with ClientSession(read, write) as session:
+      await session.initialize()
+      print(await session.list_tools())
+      print(os.environ)
+      result = await session.call_tool(
+        "video2text", {"url": "https://www.bilibili.com/video/BV1gdERzuEYB/"}
+      )
+      print(result.content[0].text)
 
-if __name__ == '__main__':
-    import asyncio
-    asyncio.run(main())
+
+if __name__ == "__main__":
+  asyncio.run(client())
 ```
 
 ## Thanks
