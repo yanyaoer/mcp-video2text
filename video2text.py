@@ -1,7 +1,7 @@
 #! /usr/bin/env -S uv run
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["yt-dlp", "pywhispercpp", "mlx-whisper", "pydantic_ai"]
+# dependencies = ["yt-dlp", "pywhispercpp", "mlx-whisper", "mcp"]
 # ///
 
 # dependencies = ["yt-dlp", "mlx-whisper", "sherpa-onnx"]
@@ -12,7 +12,8 @@ import mlx_whisper
 import yt_dlp
 from mcp.server.fastmcp import FastMCP
 
-server = FastMCP("PydanticAI Server")
+server = FastMCP("Video2Text Server")
+audio_path = "/tmp/%(id)s.%(ext)s"  # Fixme with tempfile
 
 
 def download(url):
@@ -24,7 +25,7 @@ def download(url):
         "preferredcodec": "wav",
       }
     ],
-    "outtmpl": "%(id)s.%(ext)s",
+    "outtmpl": "/tmp/%(id)s.%(ext)s",
     "postprocessor_args": [
       "-ar",
       "16000",
@@ -39,7 +40,7 @@ def download(url):
       raise Exception("Download failed")
 
     info = ydl.extract_info(url, download=False)
-    return info["id"] + ".wav"
+    return f"/tmp/{info['id']}.wav"
 
 
 def asr_mlx(wav_file):

@@ -13,6 +13,7 @@ async def client():
     async with ClientSession(read, write) as session:
       await session.initialize()
       print(await session.list_tools())
+      print(os.environ)
       result = await session.call_tool(
         "video2text", {"url": "https://www.bilibili.com/video/BV1gdERzuEYB/"}
       )
