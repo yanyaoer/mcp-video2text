@@ -1,16 +1,15 @@
-#! /usr/bin/env -S uv run
-# /// script
-# requires-python = ">=3.10"
-# dependencies = ["yt-dlp", "pywhispercpp", "mlx-whisper", "mcp"]
-# ///
-
-# dependencies = ["yt-dlp", "mlx-whisper", "sherpa-onnx"]
-
-# from pathlib import Path
-
-import mlx_whisper
 import yt_dlp
 from mcp.server.fastmcp import FastMCP
+
+try:
+  import mlx_whisper
+
+  mode = "mlx"
+except ImportError:
+  from pywhispercpp.model import Model as whisper_cpp
+
+  mode = "cpp"
+
 
 server = FastMCP("Video2Text Server")
 audio_path = "/tmp/%(id)s.%(ext)s"  # Fixme with tempfile
@@ -52,9 +51,6 @@ def asr_mlx(wav_file):
   return [s["text"] for s in result["segments"]]
 
 
-"""
-from pywhispercpp.model import Model as whisper_cpp
-
 def asr_cpp(wav_file):
   model = whisper_cpp(
     "large-v3-turbo",
@@ -63,9 +59,7 @@ def asr_cpp(wav_file):
   segments = model.transcribe(
     wav_file, language="zh", initial_prompt="以下是普通话的句子。"
   )
-  for segment in segments:
-    print(segment.text)
-"""
+  return [s["text"] for s in segments]
 
 
 @server.tool()
@@ -74,8 +68,16 @@ async def video2text(url: str) -> str:
   then transcribe to text"""
 
   w = download(url)
-  r = asr_mlx(w)
+  if mode == "mlx":
+    r = asr_mlx(w)
+  else:
+    r = asr_cpp(w)
   return "\n".join(r)
+
+
+def test():
+  print(mode)
+  print("testing")
 
 
 if __name__ == "__main__":
