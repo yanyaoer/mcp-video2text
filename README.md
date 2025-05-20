@@ -5,10 +5,16 @@ Convert online video to text, read it quickly
 ![screenshot](./screenshoot/example.png)
 
 ## Usage
+```bash
+$ uv pip install git+https://github.com/yanyaoer/mcp-video2text.git@main[mlx]
+$ uv pip install git+https://github.com/yanyaoer/mcp-video2text.git@main[cpp]
+```
+for mcp client, pass `uv run mpc-video2text` to `command` field
 
-for mcp client, pass `uv run video2text.py` to `command` field
+first run will download whisper model, should spend a few minutes,
+recommend update the timeout settings by your client.
 
-or your can custom your own client, view `test_mcp_client.py`
+or your can custom your own client, view example `test_mcp_client.py`
 
 ```python
 import asyncio
@@ -26,7 +32,6 @@ async def client():
     async with ClientSession(read, write) as session:
       await session.initialize()
       print(await session.list_tools())
-      print(os.environ)
       result = await session.call_tool(
         "video2text", {"url": "https://www.bilibili.com/video/BV1gdERzuEYB/"}
       )

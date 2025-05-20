@@ -9,6 +9,9 @@ dependencies = [
   "yt-dlp>=2025.4.30",
 ]
 
+[project.urls]
+Homepage = "https://github.com/yanyaoer/mcp-video2text"
+
 [project.optional-dependencies]
 mlx = [
   "mlx-whisper>=0.4.2"
@@ -26,7 +29,8 @@ cpp = [
 ]
 
 [project.scripts]
-video2text = "src:test"
+mpc-video2text-test = "src:test"
+mpc-video2text = "src:server.run"
 
 [tool.uv]
 package = true
