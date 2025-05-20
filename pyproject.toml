@@ -1,6 +1,6 @@
 [project]
 name = "mcp-video2text"
-version = "0.1.0"
+version = "0.1.1"
 description = "Convert online video to text, read it quickly"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -29,8 +29,8 @@ cpp = [
 ]
 
 [project.scripts]
-mpc-video2text-test = "src:test"
-mpc-video2text = "src:server.run"
+mcp-video2text-test = "src:test"
+mcp-video2text = "src:server.run"
 
 [tool.uv]
 package = true

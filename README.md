@@ -2,12 +2,12 @@
 
 Convert online video to text, read it quickly
 
-![screenshot](./screenshoot/example.png)
+![screenshoot](http://github.com/yanyaoer/mcp-video2text/screenshoot/example.png)
 
 ## Usage
 ```bash
-$ uv pip install git+https://github.com/yanyaoer/mcp-video2text.git@main[mlx]
-$ uv pip install git+https://github.com/yanyaoer/mcp-video2text.git@main[cpp]
+$ uv pip install mcp-video2text[mlx]  # recommend with mlx for silicon machine
+$ uv pip install mcp-video2text[cpp]
 ```
 for mcp client, pass `uv run mpc-video2text` to `command` field
 
