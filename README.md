@@ -6,13 +6,29 @@ Convert online video to text, read it quickly
 
 ## Usage
 ```bash
-$ uv pip install mcp-video2text[mlx]  # recommend with mlx for silicon machine
-$ uv pip install mcp-video2text[cpp]
-```
-for mcp client, pass `uv run mpc-video2text` to `command` field
+## require
+$ brew install ffmpeg # or `sudo apt install ffmpeg` for linux
 
-first run will download whisper model, should spend a few minutes,
-recommend update the timeout settings by your client.
+## install
+$ uv pip install mcp-video2text[mlx]  # recommend with mlx for silicon machine
+$ uv pip install mcp-video2text[cpp]  
+```
+
+for mcp client, pass `uv run mpc-video2text` to `command` field.
+
+```json
+{
+  "mcpServers": {
+    "mcp-video2text": {
+      "command": "uv",
+      "args": ["run", "mcp-video2text"],
+    }
+  }
+}
+```
+
+The first run will download the Whisper model and may take a few minutes.  
+It's recommended to update the timeout settings in your client.
 
 or your can custom your own client, view example `test_mcp_client.py`
 
