@@ -2,7 +2,7 @@
 
 Convert online video to text, read it quickly
 
-![screenshoot](http://github.com/yanyaoer/mcp-video2text/screenshoot/example.png)
+![screenshoot](https://raw.githubusercontent.com/yanyaoer/mcp-video2text/refs/heads/main/screenshoot/example.png)
 
 ## Usage
 ```bash
