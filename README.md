@@ -8,7 +8,8 @@ Convert online video to text, read it quickly
 
 ```bash
 ## require
-$ brew install ffmpeg # or `sudo apt install ffmpeg` for linux
+$ curl -LsSf https://astral.sh/uv/install.sh | sh  # install uv package manager
+$ brew install ffmpeg  # or `sudo apt install ffmpeg` for linux
 
 ## install
 $ uv pip install mcp-video2text[mlx]  # recommend with mlx for silicon machine
@@ -43,7 +44,7 @@ from mcp.client.stdio import stdio_client
 
 async def client():
   server_params = StdioServerParameters(
-    command="uv", args=["run", "video2text.py"], env=os.environ
+    command="uv", args=["run", "mcp-video2text"], env=os.environ
   )
   async with stdio_client(server_params) as (read, write):
     async with ClientSession(read, write) as session:
