@@ -5,6 +5,7 @@ Convert online video to text, read it quickly
 ![screenshoot](https://raw.githubusercontent.com/yanyaoer/mcp-video2text/refs/heads/main/screenshoot/example.png)
 
 ## Usage
+
 ```bash
 ## require
 $ brew install ffmpeg # or `sudo apt install ffmpeg` for linux
@@ -61,6 +62,7 @@ if __name__ == "__main__":
 ## Thanks
 - https://github.com/yt-dlp/yt-dlp
 - https://github.com/k2-fsa/sherpa-onnx
+- https://github.com/ml-explore/mlx-examples/tree/main/whisper
 - https://github.com/ggerganov/whisper.cpp
 - https://github.com/absadiki/pywhispercpp
 - https://github.com/pydantic/pydantic-ai
