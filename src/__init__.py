@@ -54,7 +54,7 @@ def asr_mlx(wav_file):
 def asr_cpp(wav_file):
   model = whisper_cpp(
     "large-v3-turbo",
-    models_dir="$HOME/Projects/agi/whisper.cpp/models/",  # for dev
+    # models_dir="$HOME/Projects/agi/whisper.cpp/models/",  # for dev
   )
   segments = model.transcribe(
     wav_file, language="zh", initial_prompt="以下是普通话的句子。"
@@ -78,6 +78,7 @@ async def video2text(url: str) -> str:
 def test():
   print(mode)
   print("testing")
+  # print(asr_cpp("/tmp/BV1gdERzuEYB.wav"))
 
 
 if __name__ == "__main__":
